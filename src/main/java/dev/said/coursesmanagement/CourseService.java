@@ -1,20 +1,17 @@
 package dev.said.coursesmanagement;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CourseService {
 
-    Course currentCourse;
-    List<Course> courses = new ArrayList<>();
+    private Course currentCourse;
+    private List<Course> courses = new ArrayList<>();
 
     public CourseService(Course currentCourse) {
         this.currentCourse = currentCourse;
