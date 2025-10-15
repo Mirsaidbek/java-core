@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         Airplane airplane = FileUtils.loadAirplane();
         BookingService bookingService = new BookingService(airplane);
-        bookingService.interactiveMenu();
-        // TODO: не выходят места, нужно проверить причину )
+        bookingService.getMenu();
     }
 }

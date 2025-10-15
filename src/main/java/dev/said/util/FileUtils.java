@@ -41,17 +41,18 @@ public class FileUtils {
                 writer.newLine();
             }
 
-            System.out.println("✅ Airplane saved successfully to " + AIRPLANE_FILE_NAME);
+            System.out.println("Airplane saved successfully to " + AIRPLANE_FILE_NAME);
         } catch (IOException e) {
-            System.out.println("❌ Error saving airplane: " + e.getMessage());
+            System.out.println("Error saving airplane: " + e.getMessage());
         }
     }
 
     public static Airplane loadAirplane() {
         File file = new File(AIRPLANE_FILE_NAME);
         if (!file.exists()) {
-            System.out.println("⚠️ No saved data found, creating a new airplane...");
-            return new Airplane("Default Plane", 0);
+            System.out.println("!!!!!!!!!!!! No saved data found, creating a new airplane...");
+            // создаём новый самолёт с 100 местами по умолчанию
+            return new Airplane("Airbus A319", 100);
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -65,26 +66,42 @@ public class FileUtils {
                     String name = parts[1];
                     int seatsCount = Integer.parseInt(parts[2]);
                     airplane = new Airplane(name, seatsCount);
+                    airplane.getSeats().clear();
                 } else if (parts[0].equals("SEAT")) {
                     String number = parts[1];
                     SeatClass seatClass = SeatClass.valueOf(parts[2]);
-                    Seat seat = getSeat(parts, number, seatClass);
-                    seats.add(seat);
+                    boolean available = Boolean.parseBoolean(parts[3]);
+                    Passenger passenger = null;
+
+                    if (parts.length > 4 && !"null".equals(parts[4])) {
+                        String[] pData = parts[4].split(",");
+                        if (pData.length == 5) {
+                            passenger = new Passenger(
+                                    pData[0],
+                                    pData[1],
+                                    Integer.parseInt(pData[2]),
+                                    pData[3],
+                                    pData[4]
+                            );
+                        }
+                    }
+
+                    seats.add(new Seat(number, seatClass, passenger, available));
                 }
             }
 
             if (airplane != null) {
                 airplane.setSeats(seats);
-                System.out.println("✅ Airplane loaded successfully from file");
+                System.out.println("Airplane loaded successfully from file");
                 return airplane;
             } else {
-                System.out.println("⚠️ File found but invalid format, creating a new airplane...");
-                return new Airplane("Default Plane", 0);
+                System.out.println("️!!!! Error creating a new airplane");
+                return new Airplane("Airbus A319", 100);
             }
 
         } catch (Exception e) {
-            System.out.println("❌ Error loading airplane: " + e.getMessage());
-            return new Airplane("Default Plane", 0);
+            System.out.println("Error loading from file: " + e.getMessage());
+            return new Airplane("Airbus A319", 100);
         }
     }
 

@@ -32,7 +32,7 @@ public class Airplane implements Serializable {
     }
 
     public void initializeSeats() {
-        if (!seats.isEmpty()) return; // уже инициализировано
+        if (!seats.isEmpty()) return;
 
         int businessCount = (int) (seatsCount * 0.1);
         int economyCount = seatsCount - businessCount;
