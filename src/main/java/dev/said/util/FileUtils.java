@@ -104,25 +104,4 @@ public class FileUtils {
             return new Airplane("Airbus A319", 100);
         }
     }
-
-    private static Seat getSeat(String[] parts, String number, SeatClass seatClass) {
-        boolean available = Boolean.parseBoolean(parts[3]);
-        Passenger passenger = null;
-
-        if (parts.length > 4 && !"null".equals(parts[4])) {
-            String[] pData = parts[4].split(",");
-            if (pData.length == 5) {
-                passenger = new Passenger(
-                    pData[0],
-                    pData[1],
-                    Integer.parseInt(pData[2]),
-                    pData[3],
-                    pData[4]
-                );
-            }
-        }
-
-        Seat seat = new Seat(number, seatClass, passenger, available);
-        return seat;
-    }
 }
