@@ -34,8 +34,6 @@ public class TaskService {
         }
 
         System.out.println("for loop result: Squared even numbers: " + squaredEvenNumbers1);
-
-
         System.out.println(" ===============\n");
     }
 
@@ -88,7 +86,6 @@ public class TaskService {
         System.out.println("For loop");
         System.out.println("max: " + max);
         System.out.println("min: " + min);
-
         System.out.println(" ===============\n");
     }
 
@@ -128,7 +125,6 @@ public class TaskService {
         }
         sortedListWithNoDuplicates.sort(Comparator.comparingInt(String::length));
         System.out.println("For loop: " + sortedListWithNoDuplicates);
-
         System.out.println(" ===============\n");
     }
 
@@ -154,7 +150,6 @@ public class TaskService {
 
             System.out.println(fruit + " : " + map.get(fruit));
         }
-
         System.out.println(" ===============\n");
     }
 
@@ -176,7 +171,6 @@ public class TaskService {
             groupedName.get(key).add(name);
         }
         groupedName.forEach((key, value) -> System.out.println(key + " : " + value));
-
         System.out.println(" ===============\n");
     }
 
@@ -217,12 +211,11 @@ public class TaskService {
         }
 
         System.out.println("For loop: " + list2);
-
         System.out.println(" ===============\n");
     }
 
 
-    public void tas10() {
+    public void task10() {
 //        10. Найди самый дорогой продукт в каждой категории.
         record Product(String name, String category, double price) {}
         List<Product> products = List.of(
@@ -233,12 +226,7 @@ public class TaskService {
 
         System.out.println(" \n === Task 10 ===");
 
-
         System.out.println(" ===============\n");
     }
 
-    public static void main(String[] args) {
-        TaskService s = new TaskService();
-        s.task9();
-    }
 }
