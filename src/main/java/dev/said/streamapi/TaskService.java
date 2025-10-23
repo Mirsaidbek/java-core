@@ -1,9 +1,15 @@
 package dev.said.streamapi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 
 public class TaskService {
 
@@ -130,9 +136,24 @@ public class TaskService {
     public void task6() {
 //        6. Преобразуй список строк в Map: ключ — строка, значение — длина.
         List<String> fruits = List.of("apple", "banana", "kiwi");
+        Map<String, Integer> map = new HashMap<>();
 
         System.out.println(" \n === Task 6 ===");
 
+        map = fruits.stream().collect(
+            toMap(s -> s, String::length)
+        );
+        System.out.println("Stream API: ");
+        map.forEach((key, value) -> System.out.println(key + " : " + value));
+
+        map.clear();
+
+        System.out.println("For loop: ");
+        for (String fruit : fruits) {
+            map.put(fruit, fruit.length());
+
+            System.out.println(fruit + " : " + map.get(fruit));
+        }
 
         System.out.println(" ===============\n");
     }
@@ -142,7 +163,19 @@ public class TaskService {
         List<String> names = List.of("Alice", "Andrew", "Bob", "Charlie", "Catherine");
 
         System.out.println(" \n === Task 7 ===");
+        System.out.println("Stream API: ");
+        Map<Character, List<String>> groupedName = names.stream().collect(groupingBy(s -> s.charAt(0)));
+        groupedName.forEach((key, value) -> System.out.println(key + " : " + value));
 
+        System.out.println("For loop: ");
+        groupedName.clear();
+
+        for (String name : names) {
+            char key = name.charAt(0);
+            groupedName.putIfAbsent(key, new ArrayList<>());
+            groupedName.get(key).add(name);
+        }
+        groupedName.forEach((key, value) -> System.out.println(key + " : " + value));
 
         System.out.println(" ===============\n");
     }
@@ -154,7 +187,7 @@ public class TaskService {
 
         System.out.println(" \n === Task 8 ===");
 
-        String namesList = names.stream().collect(Collectors.joining(","));
+        String namesList = names.stream().collect(joining(","));
         System.out.println(" Stream API :     " + namesList);
 
         namesList = names.getFirst();
@@ -169,9 +202,21 @@ public class TaskService {
     public void task9() {
 //        9. Из списка предложений получить список всех слов.
         List<String> sentences = List.of("Java is cool", "Streams are powerful");
+        List<String> list = new ArrayList<>();
 
         System.out.println(" \n === Task 9 ===");
 
+        list = Arrays.stream(sentences.stream().collect(joining(" ")).split(" ")).toList();
+        System.out.println(" Stream API :     " + list);
+
+        ArrayList<String> list2 = new ArrayList<>();
+
+        for (String sentence : sentences) {
+            String[] s = sentence.split(" ");
+            list2.addAll(Arrays.asList(s));
+        }
+
+        System.out.println("For loop: " + list2);
 
         System.out.println(" ===============\n");
     }
@@ -188,42 +233,12 @@ public class TaskService {
 
         System.out.println(" \n === Task 10 ===");
 
-//        products.stream().filter(product -)
-
 
         System.out.println(" ===============\n");
     }
 
     public static void main(String[] args) {
         TaskService s = new TaskService();
-        s.task8();
+        s.task9();
     }
 }
-
-
-/*
-
-3. Найди максимальное и минимальное число в списке с помощью Stream API.
-List<Integer> nums = List.of(10, 2, 33, 4, 25);
-4. Посчитай среднюю длину строк в списке.
-List<String> names = List.of("Alice", "Bob", "Charlie", "David");
-5. Удали дубликаты и отсортируй строки по длине.
-List<String> input = List.of("apple", "pear", "apple", "banana", "pear");
-6. Преобразуй список строк в Map: ключ — строка, значение — длина.
-List<String> fruits = List.of("apple", "banana", "kiwi");
-7. Сгруппируй имена по первой букве.
-List<String> names = List.of("Alice", "Andrew", "Bob", "Charlie", "Catherine");
-8. Собери список имён в одну строку через запятую.
-List<String> names = List.of("Tom", "Jerry", "Spike");
-9. Из списка предложений получить список всех слов.
-List<String> sentences = List.of("Java is cool", "Streams are powerful");
-10. Найди самый дорогой продукт в каждой категории.
-record Product(String name, String category, double price) {}
-List<Product> products = List.of(
-new Product("Phone", "Electronics", 1200),
-new Product("TV", "Electronics", 1800),
-new Product("Apple", "Fruits", 2.5),
-new Product("Mango", "Fruits", 4.0));
-
-
-*/
