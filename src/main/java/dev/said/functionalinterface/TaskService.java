@@ -1,13 +1,12 @@
 package dev.said.functionalinterface;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
-public class TasksService {
+public class TaskService {
     public void task1() {
 //        1. Создай Predicate<String>, который проверяет, что строка не пуста и длиннее 3 символов.
         Predicate<String> predicate = s -> !s.isBlank() && s.length() > 3;
@@ -89,35 +88,100 @@ public class TasksService {
 
     }
 
+    public void task9() {
+//        9. BiFunction<Integer, Integer, Integer> multiply = (a, b) -> a * b; Function<Integer,
+//                String> toStr = x -> "Result: " + x; Используй andThen(), чтобы объединить в одну
+//        цепочку.
+
+        BiFunction<Integer, Integer, Integer> multiply = (a, b) -> a * b;
+        Function<Integer, String> toStr = x -> "Result: " + x;
+        BiFunction<Integer, Integer, String> multiplyAndPrintResult = multiply.andThen(toStr);
+
+        System.out.println(multiplyAndPrintResult.apply(5, -5));
+        System.out.println(multiplyAndPrintResult.apply(7, 12));
+        System.out.println(multiplyAndPrintResult.apply(0, 6));
+        System.out.println(multiplyAndPrintResult.apply(-1, -9));
+
+    }
+
+    public void task10() {
+//        10. Создай UnaryOperator<String>, который добавляет "!!!" к строке.
+        UnaryOperator<String> addExclamationMarkToText = s -> s.concat("!!!");
+
+        System.out.println(addExclamationMarkToText.apply("Hello"));
+        System.out.println(addExclamationMarkToText.apply("world"));
+        System.out.println(addExclamationMarkToText.apply("car"));
+    }
+
+    // task11
+    public <T> List<T> filter(List<T> list, Predicate<T> predicate) {
+//        11. Создай метод filter(List<T> list, Predicate<T> predicate), который вручную
+//        фильтрует коллекцию аналогично Stream API.
+        List<T> result = new ArrayList<>();
+
+        for (T object : list) {
+            if (predicate.test(object)) {
+                result.add(object);
+            }
+        }
+
+        return result;
+    }
+
+    //task12
+    public <T, R> List<R> map(List<T> list, Function<T, R> mapper) {
+//    12. Создай метод map(List<T> list, Function<T, R> mapper) и преобразуй List<String>
+//    в List<Integer> (длины строк).
+
+        List<R> res = new ArrayList<>();
+        for (T str : list) {
+            R apply = mapper.apply(str);
+            res.add(apply);
+        }
+
+        return res;
+    }
+
+
+    public <T> void forEach(List<T> list, Consumer<T> consumer) {
+//    13. Создай метод forEach(List<T> list, Consumer<T> consumer) и напечатай каждый
+//    элемент списка.
+
+        for (T obj : list) {
+            consumer.accept(obj);
+        }
+
+    }
+
+
+    public <T> List<T> generate(Supplier<T> supplier, int n) {
+//14. Напиши метод generate(Supplier<T> supplier, int n), который создаёт список из n
+//    элементов, полученных от supplier.
+
+        List<T> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+
+            T t = supplier.get();
+            list.add(t);
+        }
+
+        return list;
+
+    }
+
     public static void main(String[] args) {
-        TasksService tasksService = new TasksService();
-        tasksService.task8();
+        TaskService taskService = new TaskService();
+        List<String> words = Arrays.asList("Hello", "myWorld", "car", "GTA VI", "something");
+
+        taskService.filter(words, (word) -> word.length() == 3);
+
+        System.out.println(taskService.map(words, String::length));
+
+        taskService.forEach(words, System.out::println);
+
+
+        List<String> generate = taskService.generate(() -> "DDD", 3);
+        System.out.println(generate);
+
     }
 }
-
-
-
-/*
-
-Functional Interface
-
-
-
-
-
-8. Создай Predicate<Integer> isEven и isPositive. Получи Predicate, который
-проверяет "нечётное или отрицательное".
-9. BiFunction<Integer, Integer, Integer> multiply = (a, b) -> a * b; Function<Integer,
-String> toStr = x -> "Result: " + x; Используй andThen(), чтобы объединить в одну
-цепочку.
-10. Создай UnaryOperator<String>, который добавляет "!!!" к строке.
-11. Создай метод filter(List<T> list, Predicate<T> predicate), который вручную
-фильтрует коллекцию аналогично Stream API.
-12. Создай метод map(List<T> list, Function<T, R> mapper) и преобразуй List<String>
-в List<Integer> (длины строк).
-13. Создай метод forEach(List<T> list, Consumer<T> consumer) и напечатай каждый
-элемент списка.
-14. Напиши метод generate(Supplier<T> supplier, int n), который создаёт список из n
-элементов, полученных от supplier.
-
- */
