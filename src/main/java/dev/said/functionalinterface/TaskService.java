@@ -1,7 +1,6 @@
 package dev.said.functionalinterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.*;
@@ -72,7 +71,6 @@ public class TaskService {
         textPrinter.andThen(lengthCounter).accept("Hello world! HAHA ");
         textPrinter.andThen(lengthCounter).accept("world is being ... What");
         textPrinter.andThen(lengthCounter).accept("flying cars");
-
     }
 
     public void task8() {
@@ -85,7 +83,6 @@ public class TaskService {
         System.out.println(isEven.or(isPositive).test(0));
         System.out.println(isEven.or(isPositive).test(-1));
         System.out.println(isEven.or(isPositive).test(6));
-
     }
 
     public void task9() {
@@ -101,7 +98,6 @@ public class TaskService {
         System.out.println(multiplyAndPrintResult.apply(7, 12));
         System.out.println(multiplyAndPrintResult.apply(0, 6));
         System.out.println(multiplyAndPrintResult.apply(-1, -9));
-
     }
 
     public void task10() {
@@ -150,7 +146,6 @@ public class TaskService {
         for (T obj : list) {
             consumer.accept(obj);
         }
-
     }
 
 
@@ -166,22 +161,5 @@ public class TaskService {
         }
 
         return list;
-
-    }
-
-    public static void main(String[] args) {
-        TaskService taskService = new TaskService();
-        List<String> words = Arrays.asList("Hello", "myWorld", "car", "GTA VI", "something");
-
-        taskService.filter(words, (word) -> word.length() == 3);
-
-        System.out.println(taskService.map(words, String::length));
-
-        taskService.forEach(words, System.out::println);
-
-
-        List<String> generate = taskService.generate(() -> "DDD", 3);
-        System.out.println(generate);
-
     }
 }
